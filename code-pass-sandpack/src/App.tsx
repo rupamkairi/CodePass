@@ -3,7 +3,8 @@ import { Fragment } from "react";
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./store";
 import StandaloneEditor from "./Editor/StandaloneEditor";
-import Editor from "./Editor/Editor";
+// import Editor from "./Editor/Editor";
+import Editor from "./Independent/Editor";
 
 function App() {
   return (
