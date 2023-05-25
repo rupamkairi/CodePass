@@ -18,6 +18,9 @@ import Application from '@ioc:Adonis/Core/Application'
 | defined inside the `contracts` directory.
 |
 */
+
+console.log(Application.tmpPath('uploads'))
+
 export default driveConfig({
   /*
   |--------------------------------------------------------------------------
