@@ -20,9 +20,9 @@ export default function Editor() {
     <Fragment>
       <SandpackProvider theme={"auto"} template="vanilla" className="h-screen">
         <SandpackLayout className="h-full">
-          {/* <SandpackCodeEditor showRunButton={true} /> */}
-          <MonacoEditor />
-          {/* <SandpackPreview actionsChildren={<PreviewButtons />} /> */}
+          <SandpackCodeEditor showRunButton={true} />
+          {/* <MonacoEditor /> */}
+          <SandpackPreview actionsChildren={<PreviewButtons />} />
           <SandpackConsole standalone={true} resetOnPreviewRestart={true} />
         </SandpackLayout>
       </SandpackProvider>

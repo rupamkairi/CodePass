@@ -1,8 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
+import executionReducer from "./runtime/execution";
 // ...
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    runtimeExecution: executionReducer,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

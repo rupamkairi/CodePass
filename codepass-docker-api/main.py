@@ -1,13 +1,9 @@
 from typing import Union
 from fastapi import FastAPI
 import docker
-import os
 
 
 app = FastAPI()
-
-print(os.path.abspath("./app"))
-# /Users/rupamkairi/Projects/CodePass/codepass-docker-api/app
 
 
 @app.get("/")
