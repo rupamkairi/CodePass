@@ -6,6 +6,9 @@ import os
 
 app = FastAPI()
 
+print(os.path.abspath("./app"))
+# /Users/rupamkairi/Projects/CodePass/codepass-docker-api/app
+
 
 @app.get("/")
 def read_root():
@@ -22,13 +25,14 @@ def read_docker():
 @app.get("/docker/python")
 def read_docker_python():
     client = docker.from_env()
-    app_path = os.path.abspath("./app")
     output = client.containers.run(
         # name="python-codepass",
-        image="python:alpine",
+        image="python:codepass",
         working_dir="/app",
-        volumes={app_path: {"bind": "/app", "mode": "rw"}},
-        command=["./start.sh"],
-        remove=True,
+        environment=[
+            "SOURCE=https://pub-942b0c9bdd904667b74d31f3047b9731.r2.dev/main.py",
+            "TEST=https://pub-942b0c9bdd904667b74d31f3047b9731.r2.dev/test.py",
+        ],
+        # remove=True,
     )
     return output

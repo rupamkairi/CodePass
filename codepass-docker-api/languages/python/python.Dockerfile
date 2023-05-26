@@ -1,7 +1,9 @@
 FROM python:alpine
 WORKDIR /app
 
-# ADD http://127.0.0.1:3333/uploads/main.py /app/
+ENV SOURCE=""
+ENV TEST=""
+
 COPY . /app/
 
 CMD "./start.sh" 
