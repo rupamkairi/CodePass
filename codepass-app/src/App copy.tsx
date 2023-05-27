@@ -11,12 +11,15 @@ import { useState } from "react";
 import {
   expressIndexContent,
   expressPackageContent,
-} from "./WorkSpace/express/index";
-import { nodeIndexContent, nodePackageContent } from "./WorkSpace/node";
+} from "./Modules/Sandpack/WorkSpace/express/index";
+import {
+  nodeIndexContent,
+  nodePackageContent,
+} from "./Modules/Sandpack/WorkSpace/node";
 import {
   fundamentalsIndexContent,
   fundamentalsPackageContent,
-} from "./WorkSpace/fundamentals";
+} from "./Modules/Sandpack/WorkSpace/fundamentals";
 
 function App() {
   const [showFiles, setShowFiles] = useState(false);

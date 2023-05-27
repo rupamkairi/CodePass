@@ -2,13 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "..";
 
 const initialState = {
-  values: {},
+  values: {
+    language: "python",
+    content: "",
+  },
 };
 
 const executionStateSlice = createSlice({
   name: "execution",
   initialState,
-  reducers: {},
+  reducers: {
+    setContent(state, action) {
+      state.values.content = action.payload;
+    },
+  },
 });
 
 const executionReducer = executionStateSlice.reducer;
@@ -16,6 +23,6 @@ const executionReducer = executionStateSlice.reducer;
 const selectRuntimeExecution = (state: RootState) =>
   state.runtimeExecution.values;
 
-export const {} = executionStateSlice.actions;
+export const { setContent } = executionStateSlice.actions;
 export { selectRuntimeExecution };
 export default executionReducer;

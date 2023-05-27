@@ -18,8 +18,14 @@
 |
 */
 
+import { HttpContext } from '@adonisjs/core/build/standalone'
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', async () => {
   return 'Hello world from a slim app'
+})
+
+Route.post('/execute', async ({ request, response }: HttpContext) => {
+  console.log(request.body())
+  return response.ok('')
 })

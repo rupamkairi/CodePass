@@ -1,12 +1,18 @@
 import { Fragment } from "react";
-import { useAppSelector } from "../store/hook";
+import { useAppDispatch, useAppSelector } from "../store/hook";
 import { selectRuntimeExecution } from "../store/runtime/execution";
 // import StandaloneEditor from "../Modules/Sandpack/StandaloneEditor";
 // import Editor from "../Modules/Sandpack/Editor";
-import Editor from "../Modules/Monaco/Editor";
+import Editor from "../Modules/Monaco/CodeEditor";
+import { execute } from "../store/runtime/actions";
 
 export default function PlaygroundLayout() {
-  const runtimeExecution = useAppSelector(selectRuntimeExecution);
+  const dispatch = useAppDispatch();
+  const { content } = useAppSelector(selectRuntimeExecution);
+
+  function handleRun() {
+    dispatch(execute({ content }));
+  }
 
   return (
     <Fragment>
@@ -28,21 +34,33 @@ export default function PlaygroundLayout() {
                 Bork Hoc etsi multimodis reprehendi potest, tamen accipio, quod
                 dant. Duo Reges: constructio interrete. Equidem e Cn.{" "}
               </p>
+              <pre>{JSON.stringify(content, null, 2)}</pre>
             </div>
             <div className="border flex flex-col">
-              <div className="p-2 border">
+              <div className="p-2 border flex justify-between">
                 <div>
                   <label htmlFor="language" className="mr-2">
                     Language
                   </label>
                   <select name="language" id="language" className="border">
-                    <option value="javascript">JavaScript</option>
                     <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
                   </select>
+                </div>
+                <div>
+                  <button
+                    className="py-2 px-4 border border-green-600 bg-green-400 text-green-800"
+                    onClick={handleRun}
+                  >
+                    Run
+                  </button>
                 </div>
               </div>
               <div className="grow h-full">
                 <Editor />
+              </div>
+              <div className="p-2 border flex justify-between">
+                <div>Results</div>
               </div>
             </div>
           </div>
