@@ -1,14 +1,30 @@
 import { Fragment } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hook";
-import { selectRuntimeExecution } from "../store/runtime/execution";
+import {
+  selectRuntimeExecution,
+  setContent,
+  setLanguage,
+} from "../store/runtime/execution";
 // import StandaloneEditor from "../Modules/Sandpack/StandaloneEditor";
 // import Editor from "../Modules/Sandpack/Editor";
 import Editor from "../Modules/Monaco/CodeEditor";
 import { execute } from "../store/runtime/actions";
+import { snippets } from "../constants/snippets";
 
 export default function PlaygroundLayout() {
   const dispatch = useAppDispatch();
   const { content, language, result } = useAppSelector(selectRuntimeExecution);
+
+  function handleLanguageChange(value: string) {
+    if (value === "python") {
+      dispatch(setLanguage(snippets.python.language));
+      dispatch(setContent(snippets.python.snippets));
+    } else if (value === "javascript") {
+      dispatch(setLanguage(snippets.javascript.language));
+      dispatch(setContent(snippets.javascript.snippets));
+    } else {
+    }
+  }
 
   function handleRun() {
     dispatch(execute({ content, language }));
@@ -42,7 +58,15 @@ export default function PlaygroundLayout() {
                   <label htmlFor="language" className="mr-2">
                     Language
                   </label>
-                  <select name="language" id="language" className="border">
+                  <select
+                    name="language"
+                    id="language"
+                    className="border"
+                    defaultValue={language}
+                    onChange={(e) => {
+                      handleLanguageChange(e.target.value);
+                    }}
+                  >
                     <option value="python">Python</option>
                     <option value="javascript">JavaScript</option>
                   </select>
@@ -56,7 +80,7 @@ export default function PlaygroundLayout() {
                   </button>
                 </div>
               </div>
-              <div className="grow shrink h-full">
+              <div className="grow shrink h-full p-2 bg-[#1e1e1e]">
                 <Editor />
               </div>
               <div className="p-2 border grow shrink">

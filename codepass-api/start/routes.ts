@@ -62,7 +62,7 @@ Route.post('/execute', async ({ request, response }: HttpContext) => {
       // console.log(listObjects)
 
       const objectKey = 'users/1/main.py'
-      console.log(content)
+      // console.log(content)
 
       const putObjectCommand = new PutObjectCommand({
         Bucket: bucket,
@@ -72,7 +72,7 @@ Route.post('/execute', async ({ request, response }: HttpContext) => {
       })
 
       const putObject = await S3.send(putObjectCommand)
-      console.log(putObject)
+      // console.log(putObject)
 
       if (!putObject.ETag) return response.internalServerError()
       else {
@@ -84,14 +84,39 @@ Route.post('/execute', async ({ request, response }: HttpContext) => {
       }
     }
 
-    return response.ok('Ok')
+    if (language === 'javascript') {
+      const listBuckets = await S3.send(new ListBucketsCommand(''))
+      // console.log(listBuckets)
+
+      const listObjects = await S3.send(new ListObjectsV2Command({ Bucket: bucket }))
+      // console.log(listObjects)
+
+      const objectKey = 'users/1/main.js'
+      // console.log(content)
+
+      const putObjectCommand = new PutObjectCommand({
+        Bucket: bucket,
+        Key: objectKey,
+        Body: content,
+        ACL: 'public-read',
+      })
+
+      const putObject = await S3.send(putObjectCommand)
+      // console.log(putObject)
+
+      if (!putObject.ETag) return response.internalServerError()
+      else {
+        let source = 'https://pub-942b0c9bdd904667b74d31f3047b9731.r2.dev/' + objectKey
+        let test = 'https://pub-942b0c9bdd904667b74d31f3047b9731.r2.dev/' + 'test.js'
+
+        const res = await axios.post(apis.executeJavaScript, { source, test })
+        return response.status(200).send(res.data)
+      }
+    }
+
+    return response.status(200).send('Ok')
   } catch (error) {
     console.log(error)
     return response.internalServerError()
   }
 })
-
-// https://pub-942b0c9bdd904667b74d31f3047b9731.r2.dev/users/1/main.py
-// https://pub-942b0c9bdd904667b74d31f3047b9731.r2.dev/main.py
-// https://pub-942b0c9bdd904667b74d31f3047b9731.r2.dev/test.py
-// https://pub-942b0c9bdd904667b74d31f3047b9731.r2.dev/test_main.py

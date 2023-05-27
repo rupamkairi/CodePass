@@ -1,6 +1,6 @@
 import { Editor, Monaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import {
   selectRuntimeExecution,
@@ -9,23 +9,26 @@ import {
 
 export default function CodeEditor() {
   const dispatch = useAppDispatch();
-  const { language } = useAppSelector(selectRuntimeExecution);
+  const runtimeExecution = useAppSelector(selectRuntimeExecution);
+  const { language, content } = useAppSelector(selectRuntimeExecution);
 
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+  const monacoRef = useRef<Monaco | null>(null);
+
+  function handleEditorWillMount(monaco: Monaco) {}
+
   function handleEditorDidMount(
     editor: editor.IStandaloneCodeEditor,
     monaco: Monaco
   ) {
     editorRef.current = editor;
-    editorRef.current.setValue(`def solution(name):
-    return "Hello " + name
-
-    `);
-
-    dispatch(setContent(editorRef.current.getValue()));
+    monacoRef.current = monaco;
   }
 
-  function handleEditorChange(value: string | undefined, event: any) {
+  function handleEditorChange(
+    value: string | undefined,
+    event: editor.IModelContentChangedEvent
+  ) {
     dispatch(setContent(value));
   }
 
@@ -33,8 +36,11 @@ export default function CodeEditor() {
     <Fragment>
       <Editor
         className="h-full"
-        language={language}
+        theme="vs-dark"
         options={{ fontSize: 14 }}
+        language={language}
+        value={content}
+        beforeMount={handleEditorWillMount}
         onMount={handleEditorDidMount}
         onChange={handleEditorChange}
       />

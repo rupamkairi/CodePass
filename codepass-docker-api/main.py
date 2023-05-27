@@ -41,3 +41,22 @@ def read_docker_python(body: Body):
         remove=True,
     )
     return output
+
+
+@app.post("/docker/javascript")
+def read_docker_javascript(body: Body):
+    client = docker.from_env()
+    print(body.source, body.test)
+    output = client.containers.run(
+        # name="javascript-codepass",
+        image="javascript:codepass",
+        working_dir="/app",
+        environment=[
+            "SOURCE=" + body.source,
+            "TEST=" + body.test,
+        ],
+        stdout=True,
+        stderr=True,
+        remove=True,
+    )
+    return output
