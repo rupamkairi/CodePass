@@ -8,10 +8,10 @@ import { execute } from "../store/runtime/actions";
 
 export default function PlaygroundLayout() {
   const dispatch = useAppDispatch();
-  const { content } = useAppSelector(selectRuntimeExecution);
+  const { content, language } = useAppSelector(selectRuntimeExecution);
 
   function handleRun() {
-    dispatch(execute({ content }));
+    dispatch(execute({ content, language }));
   }
 
   return (

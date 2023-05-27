@@ -17,6 +17,12 @@ export default function CodeEditor() {
     monaco: Monaco
   ) {
     editorRef.current = editor;
+    editorRef.current.setValue(`def solution(name):
+    return "Hello " + name
+
+    `);
+
+    dispatch(setContent(editorRef.current.getValue()));
   }
 
   function handleEditorChange(value: string | undefined, event: any) {

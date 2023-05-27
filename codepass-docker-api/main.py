@@ -1,5 +1,6 @@
 from typing import Union
 from fastapi import FastAPI
+from pydantic import BaseModel
 import docker
 
 
@@ -18,16 +19,22 @@ def read_docker():
     return output
 
 
-@app.get("/docker/python")
-def read_docker_python():
+class Body(BaseModel):
+    source: str
+    test: str
+
+
+@app.post("/docker/python")
+def read_docker_python(body: Body):
     client = docker.from_env()
+    print(body.source, body.test)
     output = client.containers.run(
         # name="python-codepass",
         image="python:codepass",
         working_dir="/app",
         environment=[
-            "SOURCE=https://pub-942b0c9bdd904667b74d31f3047b9731.r2.dev/main.py",
-            "TEST=https://pub-942b0c9bdd904667b74d31f3047b9731.r2.dev/test.py",
+            "SOURCE=" + body.source,
+            "TEST=" + body.test,
         ],
         # remove=True,
     )
