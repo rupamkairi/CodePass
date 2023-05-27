@@ -17,4 +17,4 @@ echo "Files"
 ls -al .
 
 echo "Running Tests"
-python -m unittest
+python -m unittest test_main.py

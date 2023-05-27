@@ -8,7 +8,7 @@ import { execute } from "../store/runtime/actions";
 
 export default function PlaygroundLayout() {
   const dispatch = useAppDispatch();
-  const { content, language } = useAppSelector(selectRuntimeExecution);
+  const { content, language, result } = useAppSelector(selectRuntimeExecution);
 
   function handleRun() {
     dispatch(execute({ content, language }));
@@ -56,11 +56,16 @@ export default function PlaygroundLayout() {
                   </button>
                 </div>
               </div>
-              <div className="grow h-full">
+              <div className="grow shrink h-full">
                 <Editor />
               </div>
-              <div className="p-2 border flex justify-between">
+              <div className="p-2 border grow shrink">
                 <div>Results</div>
+                {result !== "" && (
+                  <div className="overflow-x-scroll">
+                    <pre className="text-sm">{result}</pre>
+                  </div>
+                )}
               </div>
             </div>
           </div>

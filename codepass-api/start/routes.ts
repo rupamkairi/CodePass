@@ -64,24 +64,24 @@ Route.post('/execute', async ({ request, response }: HttpContext) => {
       const objectKey = 'users/1/main.py'
       // console.log(content)
 
-      const putObjectCommand = new PutObjectCommand({
-        Bucket: bucket,
-        Key: objectKey,
-        Body: content,
-        ACL: 'public-read',
-      })
+      // const putObjectCommand = new PutObjectCommand({
+      //   Bucket: bucket,
+      //   Key: objectKey,
+      //   Body: content,
+      //   ACL: 'public-read',
+      // })
 
-      const putObject = await S3.send(putObjectCommand)
-      console.log(putObject)
+      // const putObject = await S3.send(putObjectCommand)
+      // console.log(putObject)
 
-      if (!putObject.ETag) return response.internalServerError()
+      // if (!putObject.ETag) return response.internalServerError()
+      if (false) return response.internalServerError()
       else {
         let source = 'https://pub-942b0c9bdd904667b74d31f3047b9731.r2.dev/' + objectKey
         let test = 'https://pub-942b0c9bdd904667b74d31f3047b9731.r2.dev/' + 'test_main.py'
 
         const res = await axios.post('http://127.0.0.1:8000/docker/python', { source, test })
-        console.log(res.data)
-        return response.json({ message: res.data })
+        return response.status(200).send(res.data)
       }
     }
 
