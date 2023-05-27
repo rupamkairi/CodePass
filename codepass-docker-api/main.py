@@ -38,6 +38,6 @@ def read_docker_python(body: Body):
         ],
         stdout=True,
         stderr=True,
-        # remove=True,
+        remove=True,
     )
     return output
