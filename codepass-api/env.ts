@@ -21,4 +21,9 @@ export default Env.rules({
   APP_NAME: Env.schema.string(),
   DRIVE_DISK: Env.schema.enum(['local'] as const),
   NODE_ENV: Env.schema.enum(['development', 'production', 'test'] as const),
+  DOCKER_API: Env.schema.string(),
+  R2_S3_ENDPOINT: Env.schema.string(),
+  R2_S3_BUCKET: Env.schema.string(),
+  R2_S3_ACCESS_KEY_ID: Env.schema.string(),
+  R2_S3_SECRET_ACCESS_KEY: Env.schema.string(),
 })
